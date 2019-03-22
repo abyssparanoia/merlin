@@ -3,6 +3,7 @@ package repository
 import (
 	"context"
 
+	"github.com/abyssparanoia/merlin/src/lib/log"
 	"github.com/abyssparanoia/merlin/src/model"
 	"github.com/jinzhu/gorm"
 )
@@ -15,7 +16,13 @@ func (r *user) Get(ctx context.Context, userID int64) (*model.User, error) {
 
 	user := &model.User{}
 	user.ID = userID
-	r.sql.First(&user)
+	errs := r.sql.Find(&user).GetErrors()
+	if errs != nil {
+		err := errs[0]
+		log.Errorf(ctx, "r.sql.Find error: %s", err.Error())
+		return nil, err
+	}
+
 	return user, nil
 }
 

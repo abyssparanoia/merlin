@@ -41,7 +41,7 @@ func (d *Dependency) Inject() {
 
 	// Lib
 	dbConn := mysql.NewSQLClient(dbCfg)
-	defer dbConn.Close()
+	dbConn.LogMode(true)
 
 	// Repository
 	repo := repository.NewSample(fCli)
