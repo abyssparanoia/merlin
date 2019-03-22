@@ -65,3 +65,4 @@ Session.vim
 #####=== Project specific settings ===#####
 /deploy/
 env.json
+data
