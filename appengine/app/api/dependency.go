@@ -41,7 +41,9 @@ func (d *Dependency) Inject() {
 
 	// Lib
 	dbConn := mysql.NewSQLClient(dbCfg)
-	dbConn.LogMode(true)
+	if env := os.Getenv("ENV"); env == "local" {
+		dbConn.LogMode(true)
+	}
 
 	// Repository
 	repo := repository.NewSample(fCli)
