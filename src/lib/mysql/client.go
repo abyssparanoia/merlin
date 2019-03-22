@@ -1,35 +1,37 @@
-package cloudsql
+package mysql
 
 import (
 	"context"
-	"database/sql"
 	"fmt"
 
-	sq "github.com/Masterminds/squirrel"
 	"github.com/abyssparanoia/merlin/src/lib/log"
+	"github.com/jinzhu/gorm"
+
+	sq "github.com/Masterminds/squirrel"
 	_ "github.com/go-sql-driver/mysql" // MySQL Driverの読み込み
 )
 
-// NewCSQLClient ... CloudSQLのクライアントを取得する
-func NewCSQLClient(cfg *CSQLConfig) *sql.DB {
-	ds := fmt.Sprintf("%s:%s@cloudsql(%s)/",
+// NewSQLClient ... MySQLのクライアントを取得する
+func NewSQLClient(cfg *SQLConfig) *gorm.DB {
+	ds := fmt.Sprintf("%s:%s@%s/%s?parseTime=true",
 		cfg.User,
 		cfg.Password,
-		cfg.ConnectionName)
+		cfg.ConnectionName,
+		cfg.Database)
 
-	cli, err := sql.Open("mysql", ds)
+	db, err := gorm.Open("mysql", ds)
 	if err != nil {
 		panic(err)
 	}
 
-	return cli
+	return db
 }
 
 // DumpSelectQuery ... SELECTクエリを出力
 func DumpSelectQuery(ctx context.Context, query sq.SelectBuilder) {
 	qs, args, err := query.ToSql()
 	if err != nil {
-		log.Errorm(ctx, "query.ToSql", err)
+		log.Errorf(ctx, "DumpSelectQuery error: %s", err.Error())
 		return
 	}
 	dumpQuery(ctx, qs, args)
@@ -39,7 +41,7 @@ func DumpSelectQuery(ctx context.Context, query sq.SelectBuilder) {
 func DumpInsertQuery(ctx context.Context, query sq.InsertBuilder) {
 	qs, args, err := query.ToSql()
 	if err != nil {
-		log.Errorm(ctx, "query.ToSql", err)
+		log.Errorf(ctx, "DumpInsertQuery error: %s", err.Error())
 		return
 	}
 	dumpQuery(ctx, qs, args)
@@ -49,7 +51,7 @@ func DumpInsertQuery(ctx context.Context, query sq.InsertBuilder) {
 func DumpUpdateQuery(ctx context.Context, query sq.UpdateBuilder) {
 	qs, args, err := query.ToSql()
 	if err != nil {
-		log.Errorm(ctx, "query.ToSql", err)
+		log.Errorf(ctx, "DumpUpdateQuery error: %s", err.Error())
 		return
 	}
 	dumpQuery(ctx, qs, args)
@@ -59,7 +61,7 @@ func DumpUpdateQuery(ctx context.Context, query sq.UpdateBuilder) {
 func DumpDeleteQuery(ctx context.Context, query sq.DeleteBuilder) {
 	qs, args, err := query.ToSql()
 	if err != nil {
-		log.Errorm(ctx, "query.ToSql", err)
+		log.Errorf(ctx, "DumpDeleteQuery error: %s", err.Error())
 		return
 	}
 	dumpQuery(ctx, qs, args)

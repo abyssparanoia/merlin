@@ -8,6 +8,7 @@ import (
 	"github.com/abyssparanoia/merlin/src/lib/firebaseauth"
 	"github.com/abyssparanoia/merlin/src/lib/httpheader"
 	"github.com/abyssparanoia/merlin/src/lib/jsonrpc2"
+	"github.com/abyssparanoia/merlin/src/lib/mysql"
 	"github.com/abyssparanoia/merlin/src/repository"
 	"github.com/abyssparanoia/merlin/src/service"
 )
@@ -33,6 +34,12 @@ func (d *Dependency) Inject() {
 	if err != nil {
 		panic(err.Error())
 	}
+
+	// Config
+	dbCfg := mysql.GetSQLConfig()
+
+	// Lib
+	dbConn := mysql.NewSQLClient(dbCfg)
 
 	// Repository
 	repo := repository.NewSample(fCli)
