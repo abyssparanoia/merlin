@@ -46,6 +46,30 @@
   version = "v1.1"
 
 [[projects]]
+  branch = "master"
+  digest = "1:5f354a8a4e68aae03e9366dfbba0415a4c2823d16ca657c838545aa91193b7cd"
+  name = "github.com/aikizoku/merlin"
+  packages = [
+    "src/config",
+    "src/handler",
+    "src/handler/api",
+    "src/handler/worker",
+    "src/lib/cloudfirestore",
+    "src/lib/errcode",
+    "src/lib/firebaseauth",
+    "src/lib/httpclient",
+    "src/lib/httpheader",
+    "src/lib/jsonrpc2",
+    "src/lib/log",
+    "src/middleware",
+    "src/model",
+    "src/repository",
+    "src/service",
+  ]
+  pruneopts = "UT"
+  revision = "99f57d5c1a915ee9fc8858b1dee0887a276460f2"
+
+[[projects]]
   digest = "1:ffe9824d294da03b391f44e1ae8281281b4afc1bdaa9588c9097785e3af10cec"
   name = "github.com/davecgh/go-spew"
   packages = ["spew"]
@@ -389,6 +413,18 @@
     "firebase.google.com/go",
     "firebase.google.com/go/auth",
     "github.com/Masterminds/squirrel",
+    "github.com/aikizoku/merlin/src/config",
+    "github.com/aikizoku/merlin/src/handler",
+    "github.com/aikizoku/merlin/src/handler/api",
+    "github.com/aikizoku/merlin/src/handler/worker",
+    "github.com/aikizoku/merlin/src/lib/cloudfirestore",
+    "github.com/aikizoku/merlin/src/lib/firebaseauth",
+    "github.com/aikizoku/merlin/src/lib/httpheader",
+    "github.com/aikizoku/merlin/src/lib/jsonrpc2",
+    "github.com/aikizoku/merlin/src/lib/log",
+    "github.com/aikizoku/merlin/src/middleware",
+    "github.com/aikizoku/merlin/src/repository",
+    "github.com/aikizoku/merlin/src/service",
     "github.com/davecgh/go-spew/spew",
     "github.com/go-chi/chi",
     "github.com/go-sql-driver/mysql",
