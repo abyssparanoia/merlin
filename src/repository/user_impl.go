@@ -16,8 +16,8 @@ func (r *user) Get(ctx context.Context, userID int64) (*model.User, error) {
 
 	user := &model.User{}
 	user.ID = userID
-	errs := r.sql.Find(&user).GetErrors()
-	if errs != nil {
+	errs := r.sql.First(user).GetErrors()
+	if len(errs) != 0 {
 		err := errs[0]
 		log.Errorf(ctx, "r.sql.Find error: %s", err.Error())
 		return nil, err
