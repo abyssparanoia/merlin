@@ -20,3 +20,10 @@ func (s *user) Get(ctx context.Context, userID int64) (*model.User, error) {
 	}
 	return user, nil
 }
+
+// NewUser ... ユーザーサービスを取得する
+func NewUser(uRepo repository.User) User {
+	return &user{
+		uRepo: uRepo,
+	}
+}

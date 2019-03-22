@@ -19,6 +19,7 @@ type Dependency struct {
 	HTTPHeader      *httpheader.Middleware
 	JSONRPC2Handler *jsonrpc2.Handler
 	SampleHandler   *api.SampleHandler
+	UserHandler     *api.UserHandler
 }
 
 // Inject ... 依存性を注入する
@@ -40,14 +41,17 @@ func (d *Dependency) Inject() {
 
 	// Lib
 	dbConn := mysql.NewSQLClient(dbCfg)
+	defer dbConn.Close()
 
 	// Repository
 	repo := repository.NewSample(fCli)
+	uRepo := repository.NewUser(dbConn)
 
 	// Service
 	faSvc := firebaseauth.NewService()
 	hhSvc := httpheader.NewService()
 	svc := service.NewSample(repo)
+	uSvc := service.NewUser(uRepo)
 
 	// Middleware
 	d.FirebaseAuth = firebaseauth.NewMiddleware(faSvc)
@@ -56,4 +60,5 @@ func (d *Dependency) Inject() {
 	// Handler
 	d.JSONRPC2Handler = jsonrpc2.NewHandler()
 	d.SampleHandler = api.NewSampleHandler(svc)
+	d.UserHandler = api.NewUserHandler(uSvc)
 }
